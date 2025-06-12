@@ -2,9 +2,9 @@
 // Created by BartKrups on 04.04.2025.
 //
 
-#include "nPhilDPP.h"
+#include "sPhilDPP.h"
 using namespace std;
-void nPhilDPP::eat(int num)
+void sPhilDPP::eat(int num)
 {
     printf("Philosopher %d is eating\n", num + 1);
     std::this_thread::sleep_for(std::chrono::milliseconds(2000));
@@ -12,7 +12,7 @@ void nPhilDPP::eat(int num)
     arr[num]++;
 }
 
-void nPhilDPP::stats(){
+void sPhilDPP::stats(){
     while (true) {
         if(mutex_access.try_lock()) {
             printf("Eaten: ");
@@ -26,7 +26,7 @@ void nPhilDPP::stats(){
     }
 }
 
-void nPhilDPP::putForks(int num)
+void sPhilDPP::putForks(int num)
 {
     int left = num;
     int right = (num + 1) % N;
@@ -34,7 +34,7 @@ void nPhilDPP::putForks(int num)
     forks[right]->release();
 }
 
-bool nPhilDPP::pickForks(int num)
+bool sPhilDPP::pickForks(int num)
 {
     int left = num;
     int right = (num + 1) % N;
@@ -55,7 +55,7 @@ bool nPhilDPP::pickForks(int num)
 
 }
 
-void nPhilDPP::philosopher(int num)
+void sPhilDPP::philosopher(int num)
 {
     while(true)
     {
@@ -68,4 +68,29 @@ void nPhilDPP::philosopher(int num)
         std::this_thread::sleep_for(std::chrono::milliseconds(2000));
 
     }
+}
+
+void sPhilDPP::init(){
+    for (int i = 0; i < N; i++) {
+        forks.push_back(make_unique<binary_semaphore>(1));
+    }
+    arr = new int[N];
+
+    for (int i = 0; i < N; i++) {
+        arr[i] = 0;
+    }
+
+    vector<thread> threads;
+
+
+    for (int i = 0; i < N; i++) {
+        threads.emplace_back([this, i](){ this->philosopher(i);});
+    }
+
+    //thread(stats).join();
+
+    for (auto& t : threads) {
+        t.join();
+    }
+
 }

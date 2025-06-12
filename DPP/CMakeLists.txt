@@ -7,6 +7,6 @@ set(CMAKE_CXX_STANDARD_LIBRARIES "-static-libgcc -static-libstdc++ -static -lwso
 add_executable(DPP main.cpp
         mutexPhil/mPhilDPP.cpp
         mutexPhil/mPhilDPP.h
-        noMutexPhil/nPhilDPP.cpp
-        noMutexPhil/nPhilDPP.h
+        noMutexPhil/sPhilDPP.cpp
+        noMutexPhil/sPhilDPP.h
 )
