@@ -82,14 +82,14 @@ void philosopher(int num)
     }
 }
 
-/*void philosopher(int num) {
+void philosopherMutex(int num){
     int left = num;
     int right = (num + 1) % N;
     while (true) {
 
         {
             mutex_access.lock();
-            //lock_guard<mutex> lock(mutex_access);
+
 
             if (!forks[left]->try_acquire()){
                 mutex_access.unlock();
@@ -121,22 +121,9 @@ void philosopher(int num)
         this_thread::sleep_for(chrono::milliseconds(2000));
 
     }
-    /*while (true) {
-        printf("Philosopher %d is thinking\n", num + 1);
-        this_thread::sleep_for(chrono::milliseconds(2000));
 
+}
 
-        forks[left]->acquire();
-        forks[right]->acquire();
-
-        eat(num);
-
-
-        forks[left]->release();
-        forks[right]->release();
-    }#1#
-
-}*/
 
 int main() {
     int amount;
